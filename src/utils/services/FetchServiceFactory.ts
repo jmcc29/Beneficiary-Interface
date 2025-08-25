@@ -34,7 +34,4 @@ export const apiClientBiometric = async () => {
   return biometricFactory.createAPIConnection();
 };
 
-const hostLogin = process.env.NEXT_PUBLIC_SERVER_FRONTEND || "localhost";
-const portLogin = process.env.LOGIN_FRONTEND_PORT || 3001;
-
-export const urlLogin = `http://${hostLogin}:${portLogin}`;
+export const urlLogin = `http://${host}:${port}/api/auth/login?returnTo=${process.env.NEXT_PUBLIC_SERVER_FRONTEND}:${process.env.NEXT_PUBLIC_SERVER_FRONTEND_PORT}/persons`;
