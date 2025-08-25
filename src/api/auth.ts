@@ -10,7 +10,8 @@ export async function logout() {
 
     const cookieStore = await cookies();
 
-    cookieStore.delete("msp");
+    cookieStore.delete("sid");
+    
   } catch (error: any) {
     console.error(error);
 

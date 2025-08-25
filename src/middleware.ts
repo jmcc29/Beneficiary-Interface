@@ -3,23 +3,24 @@ import { NextResponse } from "next/server";
 
 export const middleware = async () => {
   const cookieStore = await cookies();
-  const cookie = cookieStore.get("msp");
-  const token = cookie?.value;
+  const cookie = cookieStore.get("sid");
+  const sessionId = cookie?.value;
 
-  const host = process.env.NEXT_PUBLIC_SERVER_FRONTEND || "";
-  const port = process.env.LOGIN_FRONTEND_PORT || "3001";
-  const url = "http://" + host + ":" + port + "/login";
+  const urlFront = `${process.env.NEXT_PUBLIC_SERVER_FRONTEND}:${process.env.NEXT_PUBLIC_SERVER_FRONTEND_PORT}`;
+  const host = process.env.NEXT_PUBLIC_BACKEND_HOST;
+  const port = process.env.NEXT_PUBLIC_BACKEND_PORT;
+  const urlLogin = `http://${host}:${port}/api/auth/login?returnTo=http://${urlFront}/persons`;
 
   try {
-    if (!token) {
-      return NextResponse.redirect(url);
+    if (!sessionId) {
+      return NextResponse.redirect(urlLogin);
     }
 
     return NextResponse.next();
   } catch (e) {
-    console.error("Error verificando token en middleware", e);
+    console.error("Error verificando la sesión en middleware", e);
 
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(urlLogin);
   }
 };
 
