@@ -5,12 +5,12 @@ import React, { Suspense } from "react";
 import { Logo } from "@/components/common/icons";
 import { ThemeSwitch } from "@/components/common/theme-switch";
 import UserComponent from "@/components/header/user";
-import { urlLogin } from "@/utils/services";
+import { getLoginUrl } from "@/utils/env";
 import { getUserCookie } from "@/utils/helpers/cookie";
 
 export const Navbar = async () => {
   const { data } = await getUserCookie();
-
+  const urlLogin = getLoginUrl();
   return (
     <Suspense fallback={<div>Cargando...</div>}>
       <NextUINavbar isBordered maxWidth="xl" position="sticky">

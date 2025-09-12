@@ -2,13 +2,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Breadcrumbs, BreadcrumbItem } from "@heroui/breadcrumbs";
-
-import { urlLogin } from "@/utils/services";
+import { getLoginUrl } from '../../utils/env';
 
 export const BreadcrumbsState = () => {
   const pathname = usePathname();
   const segments = pathname.split("/").filter(Boolean);
-
+  const urlLogin = getLoginUrl();
   const getLabelFromSegment = (segment: string): string => {
     if (/^persons$/.test(segment)) return "Personas";
     if (/^[0-9a-fA-F-]{36}$/.test(segment)) return "Perfil";

@@ -33,5 +33,3 @@ export const apiClientBiometric = async () => {
 
   return biometricFactory.createAPIConnection();
 };
-
-export const urlLogin = `http://${host}:${port}/api/auth/login?returnTo=${process.env.NEXT_PUBLIC_SERVER_FRONTEND}:${process.env.NEXT_PUBLIC_SERVER_FRONTEND_PORT}/persons`;
