@@ -30,11 +30,9 @@ export abstract class APIConnection {
     if (typeof window === "undefined") {
       // SSR: copia el header Cookie de la request entrante y reenvíalo
       const { headers: nextHeaders } = require("next/headers") as typeof import("next/headers");
-      const cookieHeader = (await nextHeaders()).get("cookie"); // <-- ahora sí con await
+      const cookieHeader = (await nextHeaders()).get("cookie");
       if (cookieHeader) {
-        headers["Cookie"] = headers["Cookie"]
-          ? `${headers["Cookie"]}; ${cookieHeader}`
-          : cookieHeader;
+        headers["Cookie"] = headers["Cookie"] ? `${headers["Cookie"]}; ${cookieHeader}` : cookieHeader;
       }
       // (en SSR no hace falta requestConfig.credentials)
     } else {
