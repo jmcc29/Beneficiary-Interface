@@ -1,30 +1,37 @@
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+// middleware.ts (frontend 2) — versión con validación
+import { NextRequest, NextResponse } from "next/server";
+import { login } from "./api/auth/login";
+import { tokenStatus } from "./api/auth/token";
+import { getClientId } from "./utils/env";
 
-export const middleware = async () => {
-  const cookieStore = await cookies();
-  const cookie = cookieStore.get("msp");
-  const token = cookie?.value;
-
-  const host = process.env.NEXT_PUBLIC_SERVER_FRONTEND || "";
-  const port = process.env.LOGIN_FRONTEND_PORT || "3001";
-  const url = "http://" + host + ":" + port + "/login";
-
-  try {
-    if (!token) {
-      return NextResponse.redirect(url);
-    }
-
-    return NextResponse.next();
-  } catch (e) {
-    console.error("Error verificando token en middleware", e);
-
-    return NextResponse.redirect(url);
+export async function middleware(req: NextRequest) {
+  const sid = req.cookies.get("sid")?.value;
+  
+  if (req.nextUrl.pathname === "/") {
+    const u = req.nextUrl.clone();
+    u.pathname = "/persons";
+    return NextResponse.redirect(u);
   }
-};
+
+  if(!sid) {
+    const urlLogin = await login(req.nextUrl.pathname + req.nextUrl.search);
+    return NextResponse.redirect(urlLogin);
+  }
+
+  //🔍 validar que hay token para ESTE client_id
+  try {
+    const {exists, valid} = await tokenStatus(getClientId());
+    console.log(`token/verify responde: exists=${exists} valid=${valid}`);
+    if (exists && valid) return NextResponse.next();
+  } catch (e) {
+    console.warn(e);
+    /* ignore */
+  }
+  // si falta token de este cliente -> inicia su login
+  const urlLogin = await login(req.nextUrl.pathname + req.nextUrl.search);
+  return NextResponse.redirect(urlLogin);
+}
 
 export const config = {
-  matcher: [
-    "/((?!_next/|favicon.ico|static/|images/|fonts/|api/|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.svg|.*\\.webp|.*\\.gif|.*\\.ico).*)",
-  ],
+  matcher: ["/((?!api/auth/|_next/|favicon.ico).*)"],
 };
