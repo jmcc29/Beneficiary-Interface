@@ -11,6 +11,13 @@ export interface User {
   identityCard?: string;
   position?: string;
 }
+
+export interface Permission {
+  scopes: string [];
+  rsid: string;
+  rsname:string;
+}
+
 export interface TablePersons
   extends Pick<
     Person,
