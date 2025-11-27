@@ -5,8 +5,8 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/d
 import { User } from "@heroui/user";
 
 interface Props {
-  username: string;
-  name: string;
+  username: string | null;
+  name: string | null;
   onLogout: () => void;
 }
 export const UserSession = ({ username, name, onLogout }: Props) => {

@@ -5,9 +5,9 @@ import { NavbarBrand, NavbarContent, NavbarItem, Navbar as NextUINavbar } from "
 
 import { UserSession, ThemeSwitch } from "@/components/common";
 import { Logo } from "@/components/icons";
-import { urlLogin } from "@/utils/services";
+import { urlHubFront } from "@/utils/services";
 import { User } from "@/utils/interfaces";
-import { logout } from "@/api/auth";
+import { logout } from "@/api/auth/logout";
 interface Props {
   user: User;
   environment: string;
@@ -17,7 +17,7 @@ interface Props {
 export const Navbar = ({ user, environment, computerToolName }: Props) => {
   const onLogout = async () => {
     await logout();
-    window.location.href = `${urlLogin}/login`;
+    window.location.href = urlHubFront;
   };
 
   return (
@@ -28,7 +28,7 @@ export const Navbar = ({ user, environment, computerToolName }: Props) => {
       position="sticky"
     >
       <NavbarBrand>
-        <Link className="flex justify-start items-center gap-1" href={`${urlLogin}/apphub`}>
+        <Link className="flex justify-start items-center gap-1" href={`${urlHubFront}/apphub`}>
           <Logo height={30} width={80} />
         </Link>
       </NavbarBrand>

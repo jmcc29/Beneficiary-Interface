@@ -5,7 +5,7 @@ import { Breadcrumbs, BreadcrumbItem } from "@heroui/breadcrumbs";
 
 import { subtitle } from "./primitives";
 
-import { urlLogin } from "@/utils/services";
+import { urlHubFront } from "@/utils/services";
 
 export const BreadcrumbsState = () => {
   const pathname = usePathname();
@@ -28,7 +28,7 @@ export const BreadcrumbsState = () => {
   return (
     <Breadcrumbs className={subtitle() + "w-full m-2"} underline="hover">
       <BreadcrumbItem key="roles">
-        <Link href={urlLogin}>Inicio</Link>
+        <Link href={urlHubFront}>Inicio</Link>
       </BreadcrumbItem>
 
       {breadcrumbs.map((crumb, index) => {

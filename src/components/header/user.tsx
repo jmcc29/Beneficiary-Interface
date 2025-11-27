@@ -5,7 +5,7 @@ import { User } from "@heroui/user";
 
 import { urlLogin } from "@/utils/services";
 import { User as UserInterface } from "@/utils/interfaces";
-import { logout } from "@/api/auth";
+import { logout } from "@/api/auth/logout";
 
 interface Props {
   user: UserInterface;
